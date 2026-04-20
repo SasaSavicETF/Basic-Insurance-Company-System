@@ -1,0 +1,54 @@
+<p-toast></p-toast>
+<div *ngIf="!loading" class="content">
+  <div class="upper-div">
+    <div>
+      <h1>Dostupne polise</h1>
+      <div class="space-between-div">
+        <div class="search-bar-div">
+          <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input type="search" pInputText (ngModelChange)="searchPolise($event)" ngModel placeholder="Pretražite polise..."/>
+          </span>
+          <span style="margin-left: 1rem;">
+            <p-checkbox label="Prikaži deaktivirane" [(ngModel)]="showDeactivated" (onChange)="ucitajPolise()" 
+              inputId="prikazi_deaktivirane" name="showDeactivated" [binary]="true">
+            </p-checkbox>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+    <p-table [value]="polise" [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
+             [rowsPerPageOptions]="[5, 10, 25, 50]" paginatorLocale="en-US">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Tip</th>
+          <th>Opis</th>
+          <th>Cijena</th>
+          <th>Kupi</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-polisa>
+        <tr>
+          <td>{{ polisa.tip }}</td>
+          <td>{{ polisa.opis }}</td>
+          <td>{{ polisa.cijena }} KM</td>
+          <td *ngIf="polisa.aktivna" class="text-muteds">
+            <p-button icon="pi pi-credit-card" label="Kupi"
+                      (click)="kupiPolisu(polisa)"
+                      severity="success"></p-button>
+          </td>
+          <td *ngIf="!polisa.aktivna" class="text-muted">
+            NEAKTIVNA
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+<div *ngIf="loading" class="loading-div">
+  <p-progressSpinner styleClass="custom-spinner" strokeWidth="4"></p-progressSpinner>
+</div>
+

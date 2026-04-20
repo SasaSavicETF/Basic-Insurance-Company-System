@@ -1,0 +1,25 @@
+<p-toast></p-toast>
+<div class="content">
+  <form #registerForm="ngForm" (ngSubmit)="onRegister(registerForm.value)">
+    <h1>Registracija</h1>
+
+    Ime:<br>
+    <input type="text" pInputText class="text-input" ngModel name="ime" required /><br>
+
+    Prezime:<br>
+    <input type="text" pInputText class="text-input" ngModel name="prezime" required /><br>
+
+    Korisničko ime:<br>
+    <input type="text" pInputText class="text-input" ngModel="korisnickoIme" name="korisnickoIme" required /><br>
+
+    Email:<br>
+    <input type="email" pInputText class="text-input" ngModel="email" name="email" required /><br>
+
+    Lozinka:<br>
+    <input type="password" pInputText class="text-input" ngModel="lozinka" name="lozinka" required /><br>
+
+    <div class="submit-div">
+      <p-button type="submit" label="Registruj se" [disabled]="registerForm.invalid || false" severity="help" [raised]="true"></p-button>
+    </div>
+  </form>
+</div>

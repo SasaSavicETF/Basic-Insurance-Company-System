@@ -1,0 +1,116 @@
+<p-toast></p-toast>
+<div class="content">
+  <div class="upper-div">
+    <div>
+      <h1>Korisnici</h1>
+      <div class="space-between-div">
+        <div class="search-bar-div">
+          <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input type="search" pInputText (ngModelChange)="searchKorisnici($event)" ngModel placeholder="Pretražite polise..."/>
+          </span>
+        </div>
+        <p-button label="Dodaj" icon="pi pi-plus" severity="help" (click)="openAddAdminDialog()"></p-button>
+      </div>
+    </div>
+
+    <!-- Dialog za CREATE -->
+    <p-dialog header="Dodavanje admina" [modal]="true" [draggable]="false" [resizable]="false"
+      [(visible)]="showAddAdminDialog" [style]="{ width: '500px' }">
+      <form #addForm="ngForm" (ngSubmit)="onAddAdmin(addForm.value)">
+        <label for="ime">Ime:</label><br>
+        <input type="text" pInputText class="text-input" ngModel name="ime" id="ime" required/><br>
+
+        <label for="prezime">Prezime:</label><br>
+        <input type="text" pInputText class="text-input" ngModel name="prezime" id="prezime" required/><br>
+
+        <label for="korisnicko_ime">Korisničko ime:</label><br>
+        <input type="text" pInputText class="text-input" ngModel name="korisnickoIme" id="korisnicko_ime" required/><br>
+
+        <label for="lozinka">Lozinka:</label><br>
+        <input type="text" pInputText class="text-input" ngModel name="lozinka" id="lozinka" required/><br>
+
+        <label for="email">Email:</label><br>
+        <input type="text" pInputText class="text-input" ngModel name="email" id="email" required/><br>
+
+        <div class="submit-div">
+          <p-button type="submit" label="Dodaj" severity="success"
+            [disabled]="addForm.invalid || false"></p-button>
+        </div>
+      </form>
+    </p-dialog>
+
+    <!-- Dialog za AŽURIRANJE korisnika -->
+    <p-dialog header="Ažuriranje korisnika" [modal]="true" [draggable]="false" [resizable]="false"
+              [(visible)]="showUpdateKorisnikDialog" [style]="{ width: '500px' }">
+      <form #updateForm="ngForm" (ngSubmit)="onUpdateKorisnik(updateForm.value)">
+        <input type="hidden" name="idKorisnik" ngModel="{{korisnikToUpdate?.idKorisnik}}" />
+
+        <label for="ime">Ime:</label><br>
+        <input type="text" pInputText class="text-input" id="ime" name="ime"
+              ngModel="{{korisnikToUpdate?.ime}}" required/><br>
+
+        <label for="prezime">Prezime:</label><br>
+        <input type="text" pInputText class="text-input" id="prezime" name="prezime"
+               ngModel="{{korisnikToUpdate?.prezime}}" required/><br>
+
+        <label for="korisnickoIme">Korisničko ime:</label><br>
+        <input type="text" pInputText class="text-input" id="korisnickoIme" name="korisnickoIme"
+               ngModel="{{korisnikToUpdate?.korisnickoIme}}" required/><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" pInputText class="text-input" id="email" name="email"
+               ngModel="{{korisnikToUpdate?.email}}" required/><br>
+
+        <input type="hidden" ngModel="{{korisnikToUpdate?.uloga}}" name="uloga" id="uloga"/><br>
+
+        <div class="submit-div">
+          <p-button type="submit" label="Sačuvaj" severity="success"
+                    [disabled]="updateForm.invalid || false"></p-button>
+        </div>
+      </form>
+    </p-dialog>
+
+    <!-- Dialog za potvrdu brisanja -->
+    <p-dialog header="Upozorenje" [(visible)]="showDeleteKorisnikDialog"
+              [modal]="true" [style]="{ width: '500px' }" [draggable]="false" [resizable]="false">
+      <p>Da li zaista želite obrisati korisnika '{{ korisnikToDelete?.korisnickoIme }}'?</p>
+      <div class="submit-div">
+        <p-button label="Zatvori" severity="secondary" (click)="showDeleteKorisnikDialog = false"></p-button>
+        <p-button label="Obriši" severity="danger" (click)="onDeleteKorisnik()"></p-button>
+      </div>
+    </p-dialog>
+  </div>
+
+  <div class="main">
+    <p-table [value]="korisnici" [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
+             [rowsPerPageOptions]="[5, 10, 25, 50]" paginatorLocale="en-US">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Korisničko ime</th>
+          <th>Ime</th>
+          <th>Prezime</th>
+          <th>Email</th>
+          <th>Uloga</th>
+          <th>Akcije</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-korisnik>
+        <tr>
+          <td>{{ korisnik.korisnickoIme }}</td>
+          <td>{{ korisnik.ime }}</td>
+          <td>{{ korisnik.prezime }}</td>
+          <td>{{ korisnik.email }}</td>
+          <td>
+            <i [class]="declareRoleIcon(korisnik)"></i>
+            &nbsp;{{ korisnik.uloga }}
+          </td>
+          <td>
+            <p-button icon="pi pi-pencil" (click)="openUpdateKorisnikDialog(korisnik)" styleClass="p-button-text" severity="info"></p-button>
+            <p-button icon="pi pi-trash" (click)="openDeleteKorisnikDialog(korisnik)" styleClass="p-button-text" severity="danger"></p-button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
