@@ -1,0 +1,105 @@
+<p-toast></p-toast>
+<div class="content">
+  <div class="upper-div">
+    <h1>Polise</h1>
+    <div class="space-between-div">
+      <div class="search-bar-div">
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input type="search" pInputText (ngModelChange)="searchPolise($event)" ngModel placeholder="Pretražite polise..."/>
+        </span>
+        <span style="margin-left: 1rem;">
+          <p-checkbox label="Prikaži deaktivirane" [(ngModel)]="showDeactivated" (onChange)="getPolise()" 
+            inputId="prikazi_deaktivirane" name="showDeactivated" [binary]="true">
+          </p-checkbox>
+        </span>
+      </div>
+      <p-button label="Dodaj" icon="pi pi-plus" severity="help" (click)="openAddPolisaDialog()"></p-button>
+    </div>
+
+    <!-- Dialog za CREATE -->
+    <p-dialog header="Dodavanje polise" [modal]="true" [draggable]="false" [resizable]="false"
+      [(visible)]="showAddPolisaDialog" [style]="{ width: '500px' }">
+      <form #addForm="ngForm" (ngSubmit)="onAddPolisa(addForm)">
+        <label for="tip">Tip:</label><br>
+        <input type="text" pInputText class="text-input" ngModel name="tip" id="tip" required/><br>
+
+        <label for="opis">Opis:</label><br>
+        <input type="text" pInputText class="text-input" ngModel name="opis" id="opis" required/><br>
+
+        <label for="cijena">Cijena:</label><br>
+        <input type="number" pInputText class="text-input" ngModel name="cijena" id="cijena" required/><br>
+
+        <div class="submit-div">
+          <p-button type="submit" label="Dodaj" severity="success"
+            [disabled]="addForm.invalid || false"></p-button>
+        </div>
+      </form>
+    </p-dialog>
+
+    <!-- Dialog za AŽURIRANJE polise -->
+    <p-dialog header="Ažuriranje polise" [modal]="true" [draggable]="false" [resizable]="false"
+              [(visible)]="showUpdatePolisaDialog" [style]="{ width: '500px' }">
+      <form #updateForm="ngForm" (ngSubmit)="onUpdatePolisa(updateForm.value)">
+        <input type="hidden" name="idPolisa" ngModel="{{polisaToUpdate?.idPolisa}}" />
+
+        <label for="tip">Tip:</label><br>
+        <input type="text" pInputText class="text-input" id="tip" name="tip"
+               ngModel="{{polisaToUpdate?.tip}}" required/><br>
+
+        <label for="opis">Opis:</label><br>
+        <input type="text" pInputText class="text-input" id="opis" name="opis"
+               ngModel="{{polisaToUpdate?.opis}}" required/><br>
+
+        <label for="cijena">Cijena:</label><br>
+        <input type="number" pInputText class="text-input" id="cijena" name="cijena"
+               ngModel="{{polisaToUpdate?.cijena}}" required/><br>
+
+        <input type="hidden" name="aktivna" ngModel="{{polisaToUpdate?.aktivna}}"/>
+
+        <div class="submit-div">
+          <p-button type="submit" label="Sačuvaj" severity="success"
+                    [disabled]="updateForm.invalid || false"></p-button>
+        </div>
+      </form>
+    </p-dialog>
+
+    <!-- Dialog za potvrdu brisanja -->
+    <p-dialog header="Upozorenje" [(visible)]="showDeletePolisaDialog"
+              [modal]="true" [style]="{ width: '500px' }" [draggable]="false" [resizable]="false">
+      <p>Da li zaista želite deaktivirati polisu '{{ polisaToDeactivate?.tip }}'?</p>
+      <div class="submit-div">
+        <p-button label="Zatvori" severity="secondary" (click)="showDeletePolisaDialog = false"></p-button>
+        <p-button label="Deaktiviraj" severity="danger" (click)="onDeactivatePolisa()"></p-button>
+      </div>
+    </p-dialog>
+  </div>
+
+  <div class="main">
+    <p-table [value]="polise" [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
+             [rowsPerPageOptions]="[5, 10, 25, 50]" paginatorLocale="en-US">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Tip</th>
+          <th>Opis</th>
+          <th>Cijena</th>
+          <th>Akcije</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-polisa>
+        <tr>
+          <td>{{ polisa.tip }}</td>
+          <td>{{ polisa.opis }}</td>
+          <td>{{ polisa.cijena }}</td>
+          <td *ngIf="polisa.aktivna">
+            <p-button icon="pi pi-pencil" (click)="openUpdatePolisaDialog(polisa)" styleClass="p-button-text" severity="info"></p-button>
+            <p-button icon="pi pi-trash" (click)="openDeletePolisaDialog(polisa)" styleClass="p-button-text" severity="danger"></p-button>
+          </td>
+          <td *ngIf="!polisa.aktivna" class="text-muted">
+            NEAKTIVNA
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

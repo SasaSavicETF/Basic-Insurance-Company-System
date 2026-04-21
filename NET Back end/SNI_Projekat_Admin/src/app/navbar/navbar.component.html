@@ -1,0 +1,70 @@
+<header *ngIf="showUpperDiv">
+  <div class="upper-div">
+    <div class="title" id="app-title">
+      <h2 style="margin: 0 0 20px 20px">eOsiguranje</h2>
+    </div>
+    <div class="profile-div">
+      <i id="option-icon" class="pi pi-bars" (click)="showPaddingMenu()"></i>
+    </div>
+  </div>
+</header>
+
+<div class="content">
+  <div *ngIf="showNavbar" class="navbar">
+    <a routerLink="/korisnici" routerLinkActive="active">
+      <div class="navbar-element">
+        <div class="flex-column" id="column1">
+          <i class="pi pi-users"></i>
+        </div>
+        <div class="flex-column">
+          <p class="title">Korisnici</p>
+          <p class="description">Upravljanje nalozima</p>
+        </div>
+      </div>
+    </a>
+
+    <a routerLink="/polise" routerLinkActive="active">
+      <div class="navbar-element">
+        <div class="flex-column" id="column1">
+          <i class="pi pi-file"></i>
+        </div>
+        <div class="flex-column">
+          <p class="title">Polise</p>
+          <p class="description">Pregled i uređivanje polisa</p>
+        </div>
+      </div>
+    </a>
+
+    <a routerLink="/kupovine" routerLinkActive="active">
+      <div class="navbar-element">
+        <div class="flex-column" id="column1">
+          <i class="pi pi-shopping-cart"></i>
+        </div>
+        <div class="flex-column">
+          <p class="title">Kupovine</p>
+          <p class="description">Pregled izvršenih kupovina</p>
+        </div>
+      </div>
+    </a>
+
+    <a routerLink="/logovi" routerLinkActive="active">
+      <div class="navbar-element">
+        <div class="flex-column" id="column1">
+          <i class="pi pi-shield"></i>
+        </div>
+        <div class="flex-column">
+          <p class="title">Logovi</p>
+          <p class="description">Bezbjednosni događaji</p>
+        </div>
+      </div>
+    </a>
+
+    <ul [ngClass]="{ 'visible': showMenu }">
+      <li (click)="logout()">Odjava</li>
+    </ul>
+  </div>
+
+  <div class="main" [ngClass]="{ 'login-background': currentRoute === '/login' }">
+    <router-outlet></router-outlet>
+  </div>
+</div>

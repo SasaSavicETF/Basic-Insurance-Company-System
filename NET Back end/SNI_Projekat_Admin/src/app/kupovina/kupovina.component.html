@@ -1,0 +1,40 @@
+<p-toast></p-toast>
+<div class="content">
+  <div class="upper-div">
+    <h1>Kupovine</h1>
+    <div class="space-between-div">
+      <div class="search-bar-div">
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input type="search" pInputText (ngModelChange)="searchKupovine($event)" ngModel placeholder="Pretražite..."/>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-div">
+    <p-table [value]="kupovine"
+             [paginator]="true"
+             [rows]="5"
+             [showCurrentPageReport]="true"
+             [rowsPerPageOptions]="[5, 10, 25, 50]"
+             paginatorLocale="en-US">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Datum</th>
+          <th>Korisnik</th>
+          <th>Polisa</th>
+          <th>Iznos</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-kupovina>
+        <tr>
+          <td>{{ kupovina.datumUplate | date: 'dd.MM.yyyy HH:mm' }}</td>
+          <td>{{ kupovina.korisnik?.korisnickoIme }}</td>
+          <td>{{ kupovina.polisa?.tip }}</td>
+          <td>{{ kupovina.iznos }} KM</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

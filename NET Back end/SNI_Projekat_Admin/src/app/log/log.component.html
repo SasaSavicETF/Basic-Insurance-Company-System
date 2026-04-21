@@ -1,0 +1,40 @@
+<p-toast></p-toast>
+<div class="content">
+  <div class="upper-div">
+    <h1>Bezbjednosni logovi</h1>
+    <div class="space-between-div">
+      <div class="search-bar-div">
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input type="search" pInputText (ngModelChange)="searchLogovi($event)" ngModel placeholder="Pretražite..."/>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-div">
+    <p-table [value]="logovi"
+             [paginator]="true"
+             [rows]="5"
+             [showCurrentPageReport]="true"
+             [rowsPerPageOptions]="[5, 10, 25, 50]"
+             paginatorLocale="en-US">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Vrijeme</th>
+          <th>Akcija</th>
+          <th>Detalji</th>
+          <th>Korisnik</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-log>
+        <tr>
+          <td>{{ log.vrijeme | date: 'dd.MM.yyyy HH:mm' }}</td>
+          <td>{{ log.akcija }}</td>
+          <td>{{ log.detalji }}</td>
+          <td>{{ log.korisnik.korisnickoIme }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

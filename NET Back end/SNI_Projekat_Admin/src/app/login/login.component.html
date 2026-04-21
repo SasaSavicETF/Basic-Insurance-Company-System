@@ -1,0 +1,35 @@
+<p-toast></p-toast>
+<div class="content">
+  <form #loginForm="ngForm" (ngSubmit)="loginOrVerify()">
+    <h1>Dobrodošli!</h1>
+    Korisničko ime:<br>
+    <input type="text" pInputText class="text-input" 
+           [(ngModel)]="username" name="username" id="username" required /><br>
+    Lozinka:<br>
+    <input type="password" pInputText class="text-input" 
+           [(ngModel)]="password" name="password" id="password" required /><br>
+    <div class="submit-div">
+      <p-button type="submit" [label]="showLoginButton ? 'Prijava' : 'Unesite kod'" 
+                [disabled]="loginForm.invalid || false" 
+                [raised]="true" severity="help"></p-button>
+    </div>
+  </form>
+</div>
+
+<p-dialog header="Verifikacija" [visible]="showVerificationDialog" 
+          [modal]="true" [closable]="false" [style]="{width: '500px'}">
+  <form #codeForm="ngForm" (ngSubmit)="verifyCode()">
+    Verifikacioni kod:<br>
+    <input type="text" pInputText class="text-input" 
+        [(ngModel)]="verificationCode" name="verificationCode" id="verificationCode" required /><br>
+    <div class="space-between-div">
+        <p-button type="button" label="Zatvori"
+            [raised]="true" severity="secondary"
+            (click)="closeCodeDialog()"/>
+        <p-button type="submit" label="Potvrdi" 
+            [disabled]="codeForm.invalid || false" 
+            [raised]="true" severity="help"></p-button>
+    </div>
+  </form>
+</p-dialog>
+

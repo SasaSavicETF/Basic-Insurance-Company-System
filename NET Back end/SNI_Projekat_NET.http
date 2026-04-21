@@ -1,0 +1,6 @@
+@SNI_Projekat_NET_HostAddress = http://localhost:5004
+
+GET {{SNI_Projekat_NET_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
